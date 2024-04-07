@@ -1,6 +1,6 @@
 import Main from "@/app/(beforeLogin)/_component/Main";
 
-export default function page() {
+export default function Page() {
   return (
     <Main />
   )

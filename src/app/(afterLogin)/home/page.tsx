@@ -4,7 +4,7 @@ import PostForm from './_component/PostForm'
 import Post from '@/app/(afterLogin)/_component/Post'
 import style from './home.module.css'
 
-export default function Home() {
+export default function Page() {
   return (
     <main className={style.main}>
       <TabProvider>

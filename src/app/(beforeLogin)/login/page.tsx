@@ -2,7 +2,7 @@
 import {useRouter} from 'next/navigation'
 import Main from "@/app/(beforeLogin)/_component/Main";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   router.replace('/i/flow/login')
   return (
