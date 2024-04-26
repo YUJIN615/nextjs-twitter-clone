@@ -2,7 +2,7 @@
 
 import style from '@/app/(beforeLogin)/_component/login.module.css';
 import {ChangeEventHandler, FormEventHandler, useState} from "react";
-import {redirect, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 
 export default function LoginModal() {
@@ -15,21 +15,20 @@ export default function LoginModal() {
     e.preventDefault();
     setMessage('');
     try {
-      console.log('성공')
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         username: id,
         password,
         redirect: false,
       })
+      console.log('result', result)
       router.replace('/home');
     } catch (err) {
-      console.log('실패');
-      console.error(err);
+      console.error('err', err);
       setMessage('아이디와 비밀번호가 일치하지 않습니다.');
     }
   };
   const onClickClose = () => {
-    router.back();
+    router.push('/');
   };
 
   const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => {
