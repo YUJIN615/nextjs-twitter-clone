@@ -3,68 +3,29 @@ import Link from "next/link";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import {faker} from "@faker-js/faker";
 import ActionButtons from "@/app/(afterLogin)/_component/ActionButtons";
 import PostArticle from "@/app/(afterLogin)/_component/PostArticle";
-import {faker} from "@faker-js/faker";
 import PostImages from "@/app/(afterLogin)/_component/PostImages";
+import {Post as IPost} from "@/model/Post";
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime)
 
 type Props = {
-  noImage?: boolean
+  noImage?: boolean,
+  post: IPost
 }
 
-export default function Post({ noImage }: Props) {
-  const target = {
-    postId: 1,
-    User: {
-      id: 'elonmusk',
-      nickname: 'Elon Musk',
-      image: '/logo_2.png',
-    },
-    content: 'next14 트위터 클론코딩 하는중... ',
-    createdAt: new Date(),
-    Images: [] as any[],
-  }
-  if (Math.random() < 0.2 && !noImage) {
-    target.Images.push({
-      imageId: 1,
-      link: faker.image.urlLoremFlickr()
-    })
-  } else if (Math.random() < 0.4 && !noImage) {
-    target.Images.push({
-      imageId: 1,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 2,
-      link: faker.image.urlLoremFlickr()
-    })
-  } else if (Math.random() < 0.6 && !noImage) {
-    target.Images.push({
-      imageId: 1,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 2,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 3,
-      link: faker.image.urlLoremFlickr()
-    })
-  } else if (Math.random() < 0.8 && !noImage) {
-    target.Images.push({
-      imageId: 1,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 2,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 3,
-      link: faker.image.urlLoremFlickr()
-    },{
-      imageId: 4,
-      link: faker.image.urlLoremFlickr()
-    })
+export default function Post({ noImage, post }: Props) {
+  const target = post
+  if (Math.random() > 0.5 && !noImage) {
+    target.Images.push(
+      {imageId: 1, link: faker.image.urlLoremFlickr()},
+      {imageId: 2, link: faker.image.urlLoremFlickr()},
+      {imageId: 3, link: faker.image.urlLoremFlickr()},
+      {imageId: 4, link: faker.image.urlLoremFlickr()},
+    )
   }
   return (
     <PostArticle post={target}>
