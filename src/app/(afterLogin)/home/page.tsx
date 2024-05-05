@@ -3,7 +3,7 @@ import Tab from './_component/Tab'
 import PostForm from './_component/PostForm'
 import TabProvider from "@/app/(afterLogin)/home/_component/TabProvider";
 import {getPostRecommends} from "@/app/(afterLogin)/home/_lib/getPostRecommends";
-import PostRecommends from "@/app/(afterLogin)/home/_component/PostRecommends";
+import TabDecider from "@/app/(afterLogin)/home/_component/TabDecider";
 import style from './home.module.css'
 
 export default async function Page() {
@@ -24,7 +24,7 @@ export default async function Page() {
         <TabProvider>
           <Tab />
           <PostForm />
-          <PostRecommends />
+          <TabDecider />
         </TabProvider>
       </HydrationBoundary>
     </main>
