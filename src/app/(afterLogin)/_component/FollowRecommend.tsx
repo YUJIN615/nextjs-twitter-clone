@@ -2,21 +2,20 @@
 
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
+import {User} from "@/model/User";
 import style from './followRecommend.module.css'
 
-export default function FollowRecommend() {
+type Props = {
+  user: User
+}
+
+export default function FollowRecommend({ user }: Props) {
   const {data} = useSession();
   const router = useRouter();
   const onFollow = () => {
     if (!data?.user) {
       router.replace('http://localhost:3000/login');
     }
-  };
-
-  const user = {
-    id: 'elonmusk',
-    nickname: 'Elon Musk',
-    image: '/logo_2.png'
   };
 
   return (
