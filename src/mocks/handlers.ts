@@ -17,6 +17,7 @@ const User = [
 ]
 
 export const handlers = [
+  // 로그인
   http.post('/api/login', ({ request }) => {
     // BE > DB에서 데이터 가져오는 과정 있음
     // json으로 응답을 보냄
@@ -32,6 +33,7 @@ export const handlers = [
       }
     })
   }),
+  // 로그아웃
   http.post('api/logout', () => {
     // 보낼 데이터가 없을 때 주로 new HttpResponse 씀
     return new HttpResponse(null, {
@@ -40,6 +42,7 @@ export const handlers = [
       }
     })
   }),
+  // 회원가입
   http.post('api/users', async () => {
     console.log('회원가입')
     // return HttpResponse.text(JSON.stringify('user_exists'), {
@@ -52,6 +55,7 @@ export const handlers = [
       }
     })
   }),
+  // 홈 > 추천
   http.get('/api/postRecommends', ({ request }) => {
     const url = new URL(request.url)
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
@@ -107,6 +111,7 @@ export const handlers = [
       ]
     )
   }),
+  // 홈 > 팔로우 중
   http.get('/api/followingPosts', ({ request }) => {
     const url = new URL(request.url)
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
@@ -152,6 +157,61 @@ export const handlers = [
           postId: cursor + 5,
           User: User[0],
           content: `${cursor + 5} Stop following me`,
+          Images: [
+            {imageId: 1, link: faker.image.urlLoremFlickr()},
+            {imageId: 2, link: faker.image.urlLoremFlickr()},
+            {imageId: 3, link: faker.image.urlLoremFlickr()},
+          ],
+          createdAt: generateDate(),
+        },
+      ]
+    )
+  }),
+  // 검색
+  http.get('/api/search/:tag', ({ request, params }) => {
+    const { tag } = params;
+    return HttpResponse.json(
+      [
+        {
+          postId: 1,
+          User: User[0],
+          content: `${1} 검색결과 ${tag}`,
+          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
+          createdAt: generateDate(),
+        },
+        {
+          postId: 2,
+          User: User[0],
+          content: `${2} 검색결과 ${tag}`,
+          Images: [
+            {imageId: 1, link: faker.image.urlLoremFlickr()},
+            {imageId: 2, link: faker.image.urlLoremFlickr()},
+          ],
+          createdAt: generateDate(),
+        },
+        {
+          postId: 3,
+          User: User[0],
+          content: `${3} 검색결과 ${tag}`,
+          Images: [],
+          createdAt: generateDate(),
+        },
+        {
+          postId: 4,
+          User: User[0],
+          content: `${4} 검색결과 ${tag}`,
+          Images: [
+            {imageId: 1, link: faker.image.urlLoremFlickr()},
+            {imageId: 2, link: faker.image.urlLoremFlickr()},
+            {imageId: 3, link: faker.image.urlLoremFlickr()},
+            {imageId: 4, link: faker.image.urlLoremFlickr()},
+          ],
+          createdAt: generateDate(),
+        },
+        {
+          postId: 5,
+          User: User[0],
+          content: `${5} 검색결과 ${tag}`,
           Images: [
             {imageId: 1, link: faker.image.urlLoremFlickr()},
             {imageId: 2, link: faker.image.urlLoremFlickr()},
