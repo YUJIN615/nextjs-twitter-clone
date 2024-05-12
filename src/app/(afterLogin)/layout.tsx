@@ -61,8 +61,8 @@ export default async function AfterLoginLayout({children, modal}: Props) {
             </section>
           </div>
         </div>
+        {modal}
       </RQProvider>
-      {modal}
     </div>
   )
 }
