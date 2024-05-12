@@ -1,28 +1,41 @@
+import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
 import BackButton from "@/app/(afterLogin)/_component/BackButton";
-import Post from "@/app/(afterLogin)/_component/Post";
+import SinglePost from "@/app/(afterLogin)/[username]/status/[id]/_component/SinglePost";
 import CommentForm from "@/app/(afterLogin)/[username]/status/[id]/_component/CommentForm";
 import style from './singlePost.module.css'
+import {getSinglePost} from "@/app/(afterLogin)/[username]/status/[id]/_lib/getSinglePost";
+import {getComments} from "@/app/(afterLogin)/[username]/status/[id]/_lib/getComments";
+import Comments from "@/app/(afterLogin)/[username]/status/[id]/_component/Comments";
 
-export default function SinglePost() {
+type Props = {
+  params: { id: string }
+}
+
+export default async function Page({ params }: Props) {
+  const { id } = params;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({ queryKey: ['posts', id], queryFn: getSinglePost});
+  await queryClient.prefetchQuery({ queryKey: ['posts', id, 'comments'], queryFn: getComments});
+  const dehydratedState = dehydrate(queryClient);
+
   return (
     <div className={style.main}>
-      <div className={style.header}>
-        <BackButton />
-        <h3 className={style.headerTitle}>게시하기</h3>
-      </div>
-      {/* 원본 게시글 */}
-      <Post />
+      <HydrationBoundary state={dehydratedState}>
+        <div className={style.header}>
+          <BackButton />
+          <h3 className={style.headerTitle}>게시하기</h3>
+        </div>
+        {/* 원본 게시글 */}
+        <SinglePost id={id} />
 
-      {/* 답글 달기 */}
-      <CommentForm />
+        {/* 답글 달기 */}
+        <CommentForm />
 
-      {/* 답글 목록 */}
-      <div>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-      </div>
+        {/* 답글 목록 */}
+        <div>
+          <Comments id={id} />
+        </div>
+      </HydrationBoundary>
     </div>
   );
 }
