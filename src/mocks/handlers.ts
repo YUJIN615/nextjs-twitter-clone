@@ -23,8 +23,8 @@ export const handlers = [
     // json으로 응답을 보냄
     return HttpResponse.json({
       userId: 1,
-      nickname: 'yujin',
-      id: 'cookie.run',
+      nickname: 'cookie.run',
+      id: 'yujin',
       image: '/logo.png'
     },{
       // 헤더 설정
@@ -292,13 +292,18 @@ export const handlers = [
     )
   }),
   // 프로필 > 게시글 상세
-  http.get('/api/users/posts/:postId', ({ request, params }) => {
+  http.get('/api/posts/:postId', ({ request, params }): StrictResponse<any> => {
     const { postId } = params;
+    if (parseInt(postId as string) > 10) {
+      return HttpResponse.json({ message: 'no_such_post'}, {
+        status: 404
+      })
+    }
 
     return HttpResponse.json(
       {
-        postId: 1,
-        User: User[1],
+        postId,
+        User: User[0],
         content: `postId ${postId}의 내용`,
         Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}, {imageId: 1, link: faker.image.urlLoremFlickr()}, {imageId: 1, link: faker.image.urlLoremFlickr()}],
         createdAt: generateDate(),
