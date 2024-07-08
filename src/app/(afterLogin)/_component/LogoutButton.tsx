@@ -8,12 +8,6 @@ export default function LogoutButton() {
   const router = useRouter();
   const {data: me} = useSession();
 
-  // const me = {
-  //   id: 'cookie.run',
-  //   nickname: 'yujin',
-  //   image: '/logo.png',
-  // }
-
   const onLogout = () => {
     signOut({ redirect: false })
       .then(()=>{

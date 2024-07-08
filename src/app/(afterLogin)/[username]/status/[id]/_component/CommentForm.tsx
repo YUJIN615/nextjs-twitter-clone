@@ -2,6 +2,7 @@
 "use client";
 
 import {useRef, useState} from "react";
+import {useSession} from "next-auth/react";
 import style from './commentForm.module.css';
 
 export default function CommentForm() {
@@ -10,16 +11,13 @@ export default function CommentForm() {
   const onClickButton = () => {}
   const onSubmit = () => {}
   const onChange = () => {}
-  const me = {
-    id: 'cookie.run',
-    image: '/logo.png'
-  };
+  const {data: me} = useSession();
 
   return (
     <form className={style.postForm} onSubmit={onSubmit}>
       <div className={style.postUserSection}>
         <div className={style.postUserImage}>
-          <img src={me.image} alt={me.id}/>
+          <img src={me?.user?.image as string} alt={me?.user?.id}/>
         </div>
       </div>
       <div className={style.postInputSection}>
