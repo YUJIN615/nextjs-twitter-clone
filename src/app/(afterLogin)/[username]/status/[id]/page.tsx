@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
         <SinglePost id={id} />
 
         {/* 답글 달기 */}
-        <CommentForm />
+        <CommentForm id={id} />
 
         {/* 답글 목록 */}
         <div>
