@@ -21,12 +21,7 @@ export const handlers = [
   http.post('/api/login', ({ request }) => {
     // BE > DB에서 데이터 가져오는 과정 있음
     // json으로 응답을 보냄
-    return HttpResponse.json({
-      userId: 1,
-      nickname: 'cookie.run',
-      id: 'yujin',
-      image: '/logo.png'
-    },{
+    return HttpResponse.json(User[1],{
       // 헤더 설정
       headers: {
         'Set-Cookie': 'connect.sid=msw-cookie;httpOnly;path=/'
