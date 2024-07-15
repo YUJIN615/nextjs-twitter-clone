@@ -1,6 +1,7 @@
-export async function getPostRecommends() {
+type Props = { pageParam?: number }
+export async function getPostRecommends({pageParam}: Props) {
   // 데이터 불러오기. 반복되는 패턴이 있음
-  const res = await fetch('http://localhost:9090/api/postRecommends', {
+  const res = await fetch(`http://localhost:9090/api/postRecommends?cursor=${pageParam}`, {
     next: {
       // 서버 컴포넌트에서 받아올 때 캐싱이 되는데, 그걸 지우기 위해서 tag 필요
       tags: ['posts', 'recommends']
