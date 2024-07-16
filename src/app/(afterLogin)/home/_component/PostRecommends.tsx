@@ -6,13 +6,17 @@ import {useInView} from "react-intersection-observer";
 import {getPostRecommends} from "@/app/(afterLogin)/home/_lib/getPostRecommends";
 import Post from "@/app/(afterLogin)/_component/Post";
 import { Post as IPost } from "@/model/Post"
+import styles from "@/app/(afterLogin)/home/home.module.css";
 
 export default function PostRecommends() {
   const {
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching// 데이터 가져오고 있는지 여부
+    isFetching, // 데이터 가져오고 있는지 여부 (queryFn 호출될 때마다 true)
+    isPending, // 최초에 데이터 불러오지 않았을 때 true
+    isLoading, // isPending && isFetching
+    isError// 클라이언트에서 에러났을 때
   } = useInfiniteQuery<IPost[], Object, InfiniteData<IPost[]>, [_1: String, _2: String], number>({
     queryKey: ['posts', 'recommends'],
     queryFn: getPostRecommends,
@@ -33,6 +37,24 @@ export default function PostRecommends() {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage])
+
+  // 로딩중 처리
+  if (isPending) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <svg className={styles.loader} height="100%" viewBox="0 0 32 32" width={40} >
+          <circle cx="16" cy="16" fill="none" r="14" strokeWidth="4"
+                  style={{stroke: 'rgb(29, 155, 240)', opacity: 0.2}}></circle>
+          <circle cx="16" cy="16" fill="none" r="14" strokeWidth="4"
+                  style={{stroke: 'rgb(29, 155, 240)', strokeDasharray: 80, strokeDashoffset: 60}}></circle>
+        </svg>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return '에러 처리해줘'
+  }
 
   return (
     <>

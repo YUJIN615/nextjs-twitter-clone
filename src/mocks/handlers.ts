@@ -16,6 +16,10 @@ const User = [
   {id: 'leoturtle', nickname: '레오', image: faker.image.avatar()},
 ]
 
+const delay = (ms: number) => new Promise((res, rej) => {
+  setTimeout(res, ms)
+})
+
 export const handlers = [
   // 로그인
   http.post('/api/login', ({ request }) => {
@@ -51,7 +55,8 @@ export const handlers = [
     })
   }),
   // 홈 > 추천
-  http.get('/api/postRecommends', ({ request }) => {
+  http.get('/api/postRecommends', async ({ request }) => {
+    await delay(500);
     const url = new URL(request.url)
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
     return HttpResponse.json(
@@ -107,7 +112,8 @@ export const handlers = [
     )
   }),
   // 홈 > 팔로우 중
-  http.get('/api/followingPosts', ({ request }) => {
+  http.get('/api/followingPosts', async ({ request }) => {
+    await delay(500);
     const url = new URL(request.url)
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
     return HttpResponse.json(
