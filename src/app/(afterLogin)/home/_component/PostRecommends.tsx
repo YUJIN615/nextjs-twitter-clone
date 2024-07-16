@@ -1,7 +1,7 @@
 "use client"
 
 import {Fragment, useEffect} from "react";
-import {InfiniteData, useInfiniteQuery} from "@tanstack/react-query";
+import {InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import {useInView} from "react-intersection-observer";
 import {getPostRecommends} from "@/app/(afterLogin)/home/_lib/getPostRecommends";
 import Post from "@/app/(afterLogin)/_component/Post";
@@ -17,7 +17,7 @@ export default function PostRecommends() {
     isPending, // 최초에 데이터 불러오지 않았을 때 true
     isLoading, // isPending && isFetching
     isError// 클라이언트에서 에러났을 때
-  } = useInfiniteQuery<IPost[], Object, InfiniteData<IPost[]>, [_1: String, _2: String], number>({
+  } = useSuspenseInfiniteQuery<IPost[], Object, InfiniteData<IPost[]>, [_1: String, _2: String], number>({
     queryKey: ['posts', 'recommends'],
     queryFn: getPostRecommends,
     initialPageParam: 0,
