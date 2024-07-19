@@ -17,7 +17,10 @@ function showMessage(message: string | null) {
   if (message === 'no_image') {
     return "이미지를 입력해주세요."
   }
-
+  if (message === 'user_exists') {
+    return '이미 사용중인 아이디입니다.';
+  }
+  return '';
 }
 export default function SignupModal() {
   const [state, formAction] = useFormState(onSubmit, { message: null });

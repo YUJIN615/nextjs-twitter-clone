@@ -16,29 +16,25 @@ export default async (prevState: any, formData: FormData) => {
   if (!formData.get('image')) {
     return { message: 'no_image' }
   }
-
-
+  formData.set('nickname', formData.get('name') as string);
   let shouldRedirect = false;
-
-  await signIn("credentials", {
-    username: formData.get('id'),
-    password: formData.get('password'),
-    redirect: false,
-  })
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
       method: 'post',
       body: formData,
-      credentials: 'include' // 이게 있어야 쿠키가 전달됨
+      credentials: 'include' // 필수로 넣어줘야 함. 이게 있어야 쿠키가 전달됨
     })
     console.log(response.status);
-    console.log(await response.json());
-
     if (response.status === 403) {
       return { message: 'user_exists' }
     }
-
+    console.log(await response.json());
     shouldRedirect = true;
+    await signIn("credentials", {
+      username: formData.get('id'),
+      password: formData.get('password'),
+      redirect: false,
+    })
   } catch (err) {
     console.error(err);
     return { message: null };
@@ -46,8 +42,6 @@ export default async (prevState: any, formData: FormData) => {
 
   if (shouldRedirect) {
     redirect('/home'); // try~catch 문에 안에서 절대 쓰면 안됨
-    return { message: null };
   }
-
   return { message: null };
 }
