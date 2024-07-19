@@ -40,6 +40,8 @@
 }
 .userImage img {
   width: 134px;
+  height: 134px;
+  object-fit: cover;
   border-radius: 50%;
 }
 .userName {
