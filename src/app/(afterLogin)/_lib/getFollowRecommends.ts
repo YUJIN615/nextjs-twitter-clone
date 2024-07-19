@@ -1,6 +1,6 @@
 export async function getFollowRecommends() {
   // 데이터 불러오기. 반복되는 패턴이 있음
-  const res = await fetch('http://localhost:9090/api/followRecommends', {
+  const res = await fetch('http://localhost:9090/api/posts/followings', {
     next: {
       // 서버 컴포넌트에서 받아올 때 캐싱이 되는데, 그걸 지우기 위해서 tag 필요
       // 리액트 쿼리가 아닌 넥스트 서버에서 사용하는 것
